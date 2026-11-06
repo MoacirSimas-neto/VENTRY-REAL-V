@@ -2,6 +2,7 @@ import { Link, useLoaderData, useLocation, type LoaderFunctionArgs } from 'react
 import { dateFormat, priceFormat, timeFormat } from './event-formatters';
 import { getEvento } from './event-service';
 import { EventMap } from './EventMap';
+import { EventGeography } from './EventGeography';
 import { mapasDosEventos } from './event-map';
 import { TicketSelection } from './TicketSelection';
 import { getLotes } from './ticket-selection';
@@ -106,6 +107,7 @@ export function EventDetailsPage() {
             </section>
           </div>
         </div>
+        <EventGeography key={evento.id} evento={evento} />
         {mapa && <EventMap key={evento.id} nomeEvento={evento.nome} mapa={mapa} />}
         <TicketSelection key={evento.id} lotes={getLotes(evento.id)} />
       </article>

@@ -1,0 +1,31 @@
+.geographic-map.leaflet-container {
+  background: #222334;
+}
+
+.geographic-map .leaflet-bar a {
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+}
+
+.geographic-map :focus-visible {
+  outline: 3px solid #6d28d9;
+  outline-offset: -3px;
+}
+
+.geographic-pin {
+  display: grid;
+  place-items: center;
+  border: 2px solid #241642;
+  border-radius: 50%;
+  background: #c4b5fd;
+  color: #21143d;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.geographic-pin-agua {
+  border-radius: 6px;
+  background: #bae6fd;
+  color: #082f49;
+}
