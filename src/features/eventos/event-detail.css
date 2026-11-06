@@ -42,7 +42,7 @@
   inset: auto 6% 12% auto;
   width: clamp(4.5rem, 26%, 8.75rem);
   perspective: 38rem;
-  pointer-events: none;
+  --ticket-shine: 120deg;
 }
 
 .event-ticket {
@@ -56,8 +56,8 @@
   inset: 0;
   border-radius: 0.625rem;
   background: color-mix(in srgb, var(--color-paper), var(--color-ink) 24%);
-  box-shadow: 0.15rem 0.35rem 0.7rem #0005;
-  transform: translate3d(0.1rem, 0.16rem, -0.15rem);
+  box-shadow: 0.16rem 0.2rem 0 #14261d8c, 0.22rem 0.48rem 0.85rem #0007;
+  transform: translate3d(0.14rem, 0.2rem, -0.24rem);
   content: "";
 }
 
@@ -69,10 +69,23 @@
   padding: 0.65em 0.75em;
   border: 1px solid var(--color-line);
   border-radius: 0.625rem;
-  background: var(--color-paper);
+  overflow: hidden;
+  background: linear-gradient(150deg, var(--color-surface), var(--color-paper) 60%, #dce4d3);
+  box-shadow: inset 0 1px 0 #fffe;
   color: var(--color-ink);
   font-size: clamp(0.65rem, 2.2vw, 1.15rem);
 }
+
+.event-ticket-face::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(var(--ticket-shine), transparent 30%, #ffffff75 46%, transparent 63%);
+  opacity: 0.48;
+  transform: translateX(-10%);
+  content: "";
+}
+
 
 .event-ticket-brand {
   grid-column: 1;
@@ -120,7 +133,16 @@
     transition: transform var(--ticket-hover-duration) ease-out;
   }
 
-  .event-cover:hover .event-ticket {
+  .event-ticket-stage:hover .event-ticket {
     transform: rotateY(calc(var(--ticket-turn) + 5deg)) rotateZ(calc(var(--ticket-lean) + 2deg));
+  }
+
+  .event-ticket-face::after {
+    transition: transform var(--ticket-hover-duration) ease-out, opacity var(--ticket-hover-duration) ease-out;
+  }
+
+  .event-ticket-stage:hover .event-ticket-face::after {
+    opacity: 0.75;
+    transform: translateX(15%);
   }
 }

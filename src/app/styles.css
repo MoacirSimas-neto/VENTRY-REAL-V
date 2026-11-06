@@ -44,27 +44,61 @@
     @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-bold text-ink hover:bg-accent-hover motion-safe:transition-colors;
   }
 
-  .featured-art::before {
+  .hero-panel {
+    background: linear-gradient(135deg, var(--color-surface) 48%, color-mix(in srgb, var(--color-paper), var(--color-focus) 7%));
+  }
+
+  .featured-art {
+    position: relative;
+    isolation: isolate;
+    aspect-ratio: 1.8;
+    perspective: 55rem;
+  }
+
+  .featured-poster {
     position: absolute;
-    inset: 0.4rem -0.35rem -0.4rem 0.35rem;
-    z-index: -1;
+    width: 76%;
+    height: 73%;
+    object-fit: cover;
     border-radius: var(--radius-panel);
-    background: var(--color-ink);
-    content: "";
+    outline: 1px solid #ffffff52;
+    box-shadow: 0 0.3rem 0 #14261d73, 0 0.8rem 1.4rem #14261d40;
+  }
+
+  .featured-poster--back {
+    top: 15%;
+    left: 1%;
+    transform: translateZ(-2.5rem) rotateY(23deg) rotateZ(-12deg);
+    filter: brightness(0.76);
+  }
+
+  .featured-poster--middle {
+    top: 11%;
+    right: 1%;
+    transform: translateZ(-1.4rem) rotateY(-23deg) rotateZ(10deg);
+    filter: brightness(0.87);
+  }
+
+  .featured-poster--front {
+    top: 20%;
+    left: 12%;
+    transform: rotateX(7deg) rotateY(-11deg) rotateZ(-4deg);
   }
 
   @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    .featured-art img,
-    .event-card {
-      transition: transform 200ms ease-out, border-color 200ms ease-out;
+    .featured-poster--front,
+    .event-card,
+    .trend-link {
+      transition: transform 200ms ease-out, border-color 200ms ease-out, box-shadow 200ms ease-out;
     }
 
-    .featured-art:hover img {
-      transform: perspective(48rem) rotateY(-2deg);
+    .featured-art:hover .featured-poster--front {
+      transform: translateZ(0.5rem) rotateX(4deg) rotateY(-5deg) rotateZ(-3deg);
     }
 
-    .event-card:hover {
-      transform: translateY(-0.2rem);
+    .event-card:hover,
+    .trend-link:hover {
+      box-shadow: 0 0.3rem 0.8rem #14261d19;
     }
   }
 }

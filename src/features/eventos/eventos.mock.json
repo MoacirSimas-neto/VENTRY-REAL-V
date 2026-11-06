@@ -1,6 +1,7 @@
 [
   {
     "id": "1",
+    "interesse": 72,
     "nome": "Floripa Tech Summit",
     "inicio": "2026-10-29T20:00:00-03:00",
     "local": {
@@ -18,6 +19,7 @@
   },
   {
     "id": "2",
+    "interesse": 98,
     "nome": "Noite na Ilha",
     "inicio": "2026-11-21T19:30:00-03:00",
     "local": {
@@ -35,6 +37,7 @@
   },
   {
     "id": "3",
+    "interesse": 91,
     "nome": "Sabores da Baía",
     "inicio": "2026-12-05T12:00:00-03:00",
     "local": {
@@ -52,6 +55,7 @@
   },
   {
     "id": "4",
+    "interesse": 86,
     "nome": "Circuito da Pedra Branca",
     "inicio": "2026-12-06T07:00:00-03:00",
     "local": {
@@ -69,6 +73,7 @@
   },
   {
     "id": "5",
+    "interesse": 77,
     "nome": "Mostra Luz do Sul",
     "inicio": "2026-12-12T17:00:00-03:00",
     "local": {

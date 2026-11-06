@@ -25,3 +25,15 @@ test('serves a regional catalog whose cards all resolve to event details', async
     assert.deepEqual(await service.getEvento(evento.id), evento);
   }
 });
+
+test('ranks only future regional events by mock interest without changing the catalog', async () => {
+  const { eventos } = await service.getCatalogo();
+  const agora = Date.parse('2026-11-06T12:00:00-03:00');
+
+  assert.deepEqual(service.getEventosDaRegiao('florianopolis').map(evento => evento.id), ['1', '2']);
+  assert.deepEqual(service.getEventosEmAlta(service.getEventosDaRegiao('florianopolis'), agora).map(evento => evento.id), ['2']);
+  assert.deepEqual(service.getEventosEmAlta(service.getEventosDaRegiao('entorno'), agora).map(evento => evento.id), ['3', '4', '5']);
+  assert.deepEqual(service.getEventosEmAlta(eventos, agora).map(evento => evento.id), ['2', '3', '4']);
+  assert.deepEqual(service.getEventosEmAlta(eventos, Date.parse('2027-01-01')), []);
+  assert.deepEqual(eventos.map(evento => evento.id), ['1', '2', '3', '4', '5']);
+});
