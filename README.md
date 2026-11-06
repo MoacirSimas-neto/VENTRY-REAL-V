@@ -1,142 +1,73 @@
 # Ventry
 
-Ventry is an event ticketing platform currently under development, focused on database design, transactional purchases, stock control and backend architecture.
+[English](#english) · [Português](#portugues)
 
-The project started as a database learning project and is being progressively refactored into a complete ticketing system.
+<a id="english"></a>
 
-> Current status: database core completed through Phase 3.
+## English
 
----
+Ventry is an event ticketing platform in development. It started as a project to learn relational database design, transactions, and concurrency. The next step is to build the customer-facing web experience.
 
-## About
+### Current status
 
-Ventry simulates the main business rules of an event ticketing platform.
+- **Database:** MySQL schema, seed data, and stored procedures for transactional purchases, stock control, and individual ticket generation. The SQL test script includes manual checks for purchase errors and stock contention.
+- **Frontend:** The initial directory structure is in place. The application is planned around React, TypeScript, Vite, Tailwind CSS, and React Router.
 
-The system is being designed to manage:
+### First frontend milestone
 
-- Events
-- Organizers
-- Venues
-- Ticket types
-- Ticket batches
-- Customers
-- Purchases
-- Stock availability
-- Individual tickets
-- Payments
-- Event check-in
+- [ ] Build the event detail page first and use it to set the visual direction on mobile and desktop.
+- [ ] Build the event catalog and link each event to its detail page.
+- [ ] Let the customer select a ticket type, batch, and quantity, see the total, and recognize a sold-out batch.
 
-The current focus is building a reliable database foundation before moving to the API and frontend.
+The milestone is complete when the full flow works with mock data. Screens will call simple data functions so the mocks can later be replaced by API requests. Checkout, sign-in, and the organizer dashboard come after this milestone.
+
+### Development workflow
+
+- **At work:** develop and test the frontend with mocks. The catalog and ticket selection flow should run without MySQL.
+- **At home:** write and test SQL manually in MySQL Workbench. Later, connect one read-only flow first, such as the event detail page. The planned backend is a REST API using Node.js, TypeScript, Express, and MySQL.
 
 ---
 
-## Current progress
+<a id="portugues"></a>
 
-### Phase 1 — V1 Analysis
-Completed
+## Português
 
-The original database was reviewed to identify modeling issues, naming inconsistencies, missing constraints and weaknesses in stock control.
+O Ventry é uma plataforma de eventos e venda de ingressos em desenvolvimento. O projeto começou como um exercício de modelagem de banco de dados, transações e concorrência. O próximo passo é construir a experiência web do cliente.
 
-### Phase 2 — Database Refactoring
-Completed
+### Estado atual
 
-Ventry V2 was rebuilt with:
+- **Banco de dados:** schema MySQL, dados de exemplo e procedures para compras com transação, controle de estoque e geração de ingressos individuais. O roteiro SQL inclui verificações manuais de erros de compra e disputa por estoque.
+- **Frontend:** a estrutura inicial de pastas já existe. A aplicação está planejada com React, TypeScript, Vite, Tailwind CSS e React Router.
 
-- Standardized table and column names
-- Primary and foreign keys
-- `NOT NULL` constraints
-- `UNIQUE` constraints
-- `CHECK` constraints
-- Improved relational modeling
-- Explicit stock availability
+### Primeira entrega do frontend
 
-### Phase 3 — Stock and Transactions
-Completed
+- [ ] Montar primeiro a página de detalhe do evento e usá-la para definir a identidade visual no celular e no desktop.
+- [ ] Montar o catálogo e ligar cada evento à sua página de detalhe.
+- [ ] Permitir escolher tipo de ingresso, lote e quantidade, mostrar o total e sinalizar lote esgotado.
 
-The transactional purchase flow currently includes:
+A entrega fica pronta quando o fluxo completo funciona com dados fictícios. As telas vão chamar funções simples de acesso a dados para que os mocks possam ser substituídos por chamadas à API. Checkout, login e painel do organizador ficam para depois dessa entrega.
 
-- Atomic stock updates
-- Stock validation
-- `START TRANSACTION`
-- `COMMIT`
-- `ROLLBACK`
-- `ROW_COUNT()`
-- `LAST_INSERT_ID()`
-- Stored procedures
-- Automatic rollback on SQL errors
-- Validation for invalid customer, ticket batch and quantity
-- Protection against overselling
-- Concurrency testing using two database sessions
+### Divisão do trabalho
 
-The stock system was tested to ensure that two simultaneous transactions cannot sell the same last ticket.
-
-### Phase 4 — Ticketing Model
-Next
-
-The next phase will introduce:
-
-- Individual tickets
-- Unique ticket codes
-- Payments
-- Ticket status
-- Check-in
-- Duplicate check-in prevention
+- **No trabalho:** desenvolver e testar o frontend com mocks. O catálogo e a seleção de ingresso devem rodar sem MySQL.
+- **Em casa:** escrever e testar o SQL manualmente no MySQL Workbench. Mais adiante, integrar primeiro uma consulta, como o detalhe de um evento. A direção planejada para o backend é uma API REST com Node.js, TypeScript, Express e MySQL.
 
 ---
 
-## Technologies
-
-Currently used:
-
-- MySQL
-- MySQL Workbench
-- SQL
-- Stored Procedures
-- Transactions
-- Git
-- GitHub
-
-Planned:
-
-- Python
-- FastAPI
-- REST API
-- Authentication
-- React
-- Docker
-
----
-
-## Repository structure
+## Repository structure / Estrutura do repositório
 
 ```text
 Ventry/
 ├── database/
 │   ├── schema.sql
-│   ├── procedures.sql
+│   ├── procedure.sql
 │   ├── seed.sql
 │   └── tests.sql
+├── frontend/src/
+│   ├── app/
+│   ├── features/
+│   │   ├── checkout/
+│   │   └── eventos/
+│   └── shared/ui/
 └── README.md
-Roadmap
-Phase 1  ██████████ 100%  V1 analysis
-Phase 2  ██████████ 100%  Database refactoring
-Phase 3  ██████████ 100%  Stock and transactions
-Phase 4  ░░░░░░░░░░   0%  Ticketing model
-Phase 5  ░░░░░░░░░░   0%  API
-Phase 6  ░░░░░░░░░░   0%  Authentication
-Phase 7  ░░░░░░░░░░   0%  Testing and documentation
-Phase 8  ░░░░░░░░░░   0%  Frontend
-Phase 9  ░░░░░░░░░░   0%  Deployment
-Project goals
-Ventry is being developed to improve practical knowledge in:
-- Relational database design
-- SQL
-- Transactions
-- Concurrency control
-- Backend development
-- API development
-- Software architecture
-- Git and version control
-Status
-Ventry is currently a work in progress.
-The database foundation and transactional stock system are functional. Development will continue with individual ticket generation, payment modeling and event check-in.
+```
