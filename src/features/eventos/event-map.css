@@ -7,17 +7,17 @@
   --sector-line: #b5a7e8;
 }
 
-:is(.event-map-zone, .event-map-option)[data-setor="palco"] {
+:is(.event-map-zone, .event-map-option)[data-posicao="fundo"] {
   --sector-fill: #363b4c;
   --sector-line: #b2bacf;
 }
 
-:is(.event-map-zone, .event-map-option)[data-setor="vip"] {
+:is(.event-map-zone, .event-map-option)[data-posicao="frente"] {
   --sector-fill: #48394d;
   --sector-line: #e0b4d0;
 }
 
-:is(.event-map-zone, .event-map-option)[data-setor="entrada"] {
+:is(.event-map-zone, .event-map-option)[data-posicao="acesso"] {
   --sector-fill: #2d4142;
   --sector-line: #aad0c9;
 }
@@ -77,4 +77,12 @@
 
 @media (hover: hover) and (pointer: fine) {
   .event-map-zone:hover .event-map-sector { stroke: #fff; }
+}
+
+.event-map-interior {
+  fill: none;
+  stroke: var(--sector-line);
+  opacity: .55;
+  stroke-width: 1.5;
+  pointer-events: none;
 }

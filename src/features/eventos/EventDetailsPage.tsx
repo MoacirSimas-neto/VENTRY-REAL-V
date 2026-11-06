@@ -106,7 +106,7 @@ export function EventDetailsPage() {
             </section>
           </div>
         </div>
-        {mapa && <EventMap key={evento.id} setores={mapa} />}
+        {mapa && <EventMap key={evento.id} nomeEvento={evento.nome} mapa={mapa} />}
         <TicketSelection key={evento.id} lotes={getLotes(evento.id)} />
       </article>
     </main>

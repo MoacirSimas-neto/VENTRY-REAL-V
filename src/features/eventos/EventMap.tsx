@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import type { Setor } from './event-map';
+import type { Planta } from './event-map';
 import { ancoraTipoIngresso } from './ticket-selection';
 import './event-map.css';
 
-export function EventMap({ setores }: { setores: readonly Setor[] }) {
-  const [setorId, setSetorId] = useState('pista');
+export function EventMap({ nomeEvento, mapa }: { nomeEvento: string; mapa: Planta }) {
+  const { setores, marcadoresLaterais } = mapa;
+  const [setorId, setSetorId] = useState(setores[2]?.id ?? setores[0].id);
 
   return (
     <section aria-labelledby="event-map-title" className="mt-8 border-t border-line pt-6 sm:mt-10">
@@ -17,24 +18,29 @@ export function EventMap({ setores }: { setores: readonly Setor[] }) {
             <span className="text-ink">Planta de setores</span>
             <span>Vista superior · Sem escala</span>
           </figcaption>
-          <svg viewBox="0 0 420 310" className="mx-auto mt-2 block w-full max-w-[31rem]" role="img" aria-label="Palco ao fundo, VIP à frente do palco, pista central e acesso pelo saguão">
-            <path d="M75 21h270l37 30v172l-63 30v33H101v-33l-63-30V51Z" fill="#252733" stroke="#505363" strokeWidth="2" />
-            <path d="M75 27h270M45 60v155l67 32v32h196v-32l67-32V60" fill="none" stroke="#393c4b" strokeWidth="3" />
-            <path d="M52 53l41-22v52H52Zm316 0-41-22v52h41Z" fill="#303341" />
-            <path d="M60 61h23m254 0h23" stroke="#777b8e" strokeWidth="2" />
-            <path d="M101 254h41m136 0h41m-136 32v-9m54 9v-9" fill="none" stroke="#9da0b3" strokeWidth="1.5" strokeLinecap="round" />
+          <svg viewBox="0 0 420 310" className="mx-auto mt-2 block w-full max-w-[31rem]" role="img" aria-label={'Planta ilustrativa de ' + nomeEvento + ': ' + setores.map(item => item.nome).join(', ')}>
+            <path d={mapa.fundo} fill="#252733" stroke="#505363" strokeWidth="2" />
+            <path d={mapa.circulacao} fill="none" stroke="#777b8e" strokeWidth="1.5" strokeLinecap="round" />
 
-            {setores.map((item, index) => (
-              <g key={item.id} className="event-map-zone" data-setor={item.id} data-selected={setorId === item.id} onClick={() => setSetorId(item.id)}>
-                <path className="event-map-sector" d={item.area} />
-                <circle className="event-map-key" cx={item.rotulo[0] - 47} cy={item.rotulo[1]} r="10" />
-                <text className="event-map-index" x={item.rotulo[0] - 47} y={item.rotulo[1]} textAnchor="middle" dominantBaseline="middle">{index + 1}</text>
-                <text className="event-map-label" x={item.rotulo[0] + 12} y={item.rotulo[1]} textAnchor="middle" dominantBaseline="middle">{item.nome}</text>
-                {setorId === item.id && (
-                  <path className="event-map-check" d="m-4 0 3 3 6-6" transform={'translate(' + (item.rotulo[0] + 53) + ' ' + item.rotulo[1] + ')'} />
-                )}
-              </g>
-            ))}
+            {setores.map((item, index) => {
+              const [x, y] = item.rotulo;
+              const acesso = item.posicao === 'acesso';
+              const numeroX = marcadoresLaterais ? x - (acesso ? 47 : 86) : x;
+              const numeroY = marcadoresLaterais ? y : y - 15;
+              const checkX = marcadoresLaterais ? x + (acesso ? 53 : 94) : x + 18;
+              return (
+                <g key={item.id} className="event-map-zone" data-setor={item.id} data-posicao={item.posicao} data-selected={setorId === item.id} onClick={() => setSetorId(item.id)}>
+                  <path className="event-map-sector" d={item.area} />
+                  {item.detalhes && <path className="event-map-interior" d={item.detalhes} />}
+                  <circle className="event-map-key" cx={numeroX} cy={numeroY} r={marcadoresLaterais ? 10 : 8} />
+                  <text className="event-map-index" x={numeroX} y={numeroY} textAnchor="middle" dominantBaseline="middle">{index + 1}</text>
+                  <text className="event-map-label" x={marcadoresLaterais ? x + 12 : x} y={y} textAnchor="middle" dominantBaseline="middle">{item.nome}</text>
+                  {setorId === item.id && (
+                    <path className="event-map-check" d="m-4 0 3 3 6-6" transform={'translate(' + checkX + ' ' + numeroY + ')'} />
+                  )}
+                </g>
+              );
+            })}
           </svg>
         </figure>
 
@@ -48,7 +54,7 @@ export function EventMap({ setores }: { setores: readonly Setor[] }) {
                 <div key={item.id} className={selecionado ? 'bg-paper' : undefined}>
                   <button type="button" onClick={() => setSetorId(item.id)} aria-pressed={selecionado}
                     className="event-map-option flex min-h-12 w-full cursor-pointer items-center gap-3 px-3 py-2 text-left text-sm font-semibold hover:bg-paper aria-pressed:text-accent"
-                    data-setor={item.id}>
+                    data-setor={item.id} data-posicao={item.posicao}>
                     <span aria-hidden="true" className="event-map-number">{index + 1}</span>
                     {item.nome}
                     {selecionado && <span aria-hidden="true" className="ml-auto">✓</span>}
