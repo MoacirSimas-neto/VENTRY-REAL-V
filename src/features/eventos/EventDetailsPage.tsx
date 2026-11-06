@@ -1,6 +1,8 @@
 import { Link, useLoaderData, useLocation, type LoaderFunctionArgs } from 'react-router';
 import { dateFormat, priceFormat, timeFormat } from './event-formatters';
 import { getEvento } from './event-service';
+import { EventMap } from './EventMap';
+import { mapasDosEventos } from './event-map';
 import { TicketSelection } from './TicketSelection';
 import { getLotes } from './ticket-selection';
 import { NotFound } from '../../shared/ui/NotFound';
@@ -16,6 +18,7 @@ export function EventDetailsPage() {
 
   if (!evento) return <NotFound event />;
 
+  const mapa = mapasDosEventos[evento.id];
   const inicio = new Date(evento.inicio);
   const preco = priceFormat.format(evento.precoInicial);
 
@@ -103,6 +106,7 @@ export function EventDetailsPage() {
             </section>
           </div>
         </div>
+        {mapa && <EventMap key={evento.id} setores={mapa} />}
         <TicketSelection key={evento.id} lotes={getLotes(evento.id)} />
       </article>
     </main>

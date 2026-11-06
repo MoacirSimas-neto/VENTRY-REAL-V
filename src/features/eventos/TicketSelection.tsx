@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { priceFormat } from './event-formatters';
-import { ajustarQuantidade, resumirIngressos, type Lote } from './ticket-selection';
+import { ajustarQuantidade, ancoraTipoIngresso, resumirIngressos, type Lote } from './ticket-selection';
 import './ticket-selection.css';
 
 function dinheiro(centavos: number) {
@@ -36,8 +36,11 @@ export function TicketSelection({ lotes }: { lotes: readonly Lote[] }) {
                 const restantes = lote.estoque - selecionados;
                 const esgotado = lote.estoque === 0;
                 const rotulo = lote.tipo + ', ' + lote.nome;
+                const primeiroDoTipo = lotes.find(item => item.tipo === lote.tipo && item.estoque > 0)
+                  ?? lotes.find(item => item.tipo === lote.tipo);
+                const ancora = primeiroDoTipo === lote ? ancoraTipoIngresso(lote.tipo) : undefined;
                 return (
-                  <li key={lote.id} className="ticket-lot rounded-panel border border-line bg-surface motion-safe:transition-colors" data-selected={selecionados > 0}>
+                  <li key={lote.id} id={ancora} tabIndex={ancora ? -1 : undefined} className="ticket-lot scroll-mt-5 rounded-panel border border-line bg-surface motion-safe:transition-colors" data-selected={selecionados > 0}>
                     <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 px-4 py-3 sm:px-5">
                       <div>
                         <h3 className="font-editorial text-2xl leading-tight font-bold">{lote.tipo}</h3>

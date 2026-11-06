@@ -31,3 +31,7 @@ export function resumirIngressos(lotes: readonly Lote[], quantidades: Quantidade
     quantidade: itens.reduce((total, item) => total + item.quantidade, 0),
   };
 }
+
+export function ancoraTipoIngresso(tipo: string) {
+  return 'ingressos-' + tipo.toLocaleLowerCase('pt-BR').replaceAll(' ', '-');
+}
