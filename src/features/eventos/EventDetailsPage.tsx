@@ -1,6 +1,8 @@
 import { Link, useLoaderData, type LoaderFunctionArgs } from 'react-router';
 import { dateFormat, priceFormat, timeFormat } from './event-formatters';
 import { getEvento } from './event-service';
+import { TicketSelection } from './TicketSelection';
+import { getLotes } from './ticket-selection';
 import { NotFound } from '../../shared/ui/NotFound';
 import './event-detail.css';
 
@@ -98,14 +100,9 @@ export function EventDetailsPage() {
               <h2 id="about-title" className="text-xl font-bold">Sobre o evento</h2>
               <p className="text-muted mt-2 max-w-prose leading-relaxed">{evento.descricao}</p>
             </section>
-            <section id="ingressos" tabIndex={-1} aria-labelledby="tickets-title" className="scroll-mt-5 rounded-lg">
-              <h2 id="tickets-title" className="text-xl font-bold">Ingressos</h2>
-              <p className="text-muted mt-2 max-w-prose leading-relaxed">
-                A seleção de ingressos ainda não está disponível.
-              </p>
-            </section>
           </div>
         </div>
+        <TicketSelection key={evento.id} lotes={getLotes(evento.id)} />
       </article>
     </main>
   );

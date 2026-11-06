@@ -1,0 +1,45 @@
+@reference "../../app/styles.css";
+
+.ticket-lot[data-selected="true"] {
+  border-color: var(--color-focus);
+  box-shadow: inset 0 0 0 1px var(--color-focus);
+}
+
+.ticket-lot-stub {
+  position: relative;
+  border-top: 1px dashed var(--color-line);
+}
+
+.ticket-lot-stub::before,
+.ticket-lot-stub::after {
+  position: absolute;
+  top: -0.4rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: var(--color-paper);
+  pointer-events: none;
+  content: "";
+}
+
+.ticket-lot-stub::before { left: -0.4rem; }
+.ticket-lot-stub::after { right: -0.4rem; }
+
+.ticket-stepper {
+  @apply inline-grid min-h-11 min-w-11 cursor-pointer place-items-center rounded-lg border border-muted bg-paper text-xl font-bold hover:bg-accent motion-safe:transition-colors;
+}
+
+.ticket-stepper[aria-disabled="true"] {
+  @apply cursor-not-allowed border-line bg-surface text-muted;
+}
+
+.ticket-mobile-bar {
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (width < 64rem) {
+  html:has(.ticket-mobile-bar) {
+    scroll-padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "1": [
+    { "id": "pista-1", "tipo": "Pista", "nome": "1º lote", "precoCentavos": 4500, "estoque": 0 },
+    { "id": "pista-2", "tipo": "Pista", "nome": "2º lote", "precoCentavos": 5000, "estoque": 2 },
+    { "id": "vip-1", "tipo": "VIP", "nome": "Lote único", "precoCentavos": 9900, "estoque": 3 }
+  ],
+  "2": [
+    { "id": "pista-1", "tipo": "Pista", "nome": "1º lote", "precoCentavos": 5500, "estoque": 0 },
+    { "id": "pista-2", "tipo": "Pista", "nome": "2º lote", "precoCentavos": 6500, "estoque": 2 },
+    { "id": "pista-3", "tipo": "Pista", "nome": "3º lote", "precoCentavos": 7500, "estoque": 4 },
+    { "id": "vip-1", "tipo": "VIP", "nome": "Lote único", "precoCentavos": 12990, "estoque": 3 }
+  ]
+}
