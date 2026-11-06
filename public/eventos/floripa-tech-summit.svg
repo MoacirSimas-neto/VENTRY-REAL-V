@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" fill="none">
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" stroke="#31463b" stroke-width="1"/>
+    </pattern>
+    <path id="wave" d="M500 730C387 580 588 497 728 482S1033 457 1025 301 799 95 1112-115" />
+  </defs>
+  <path fill="#11241d" d="M0 0h1200v640H0z"/>
+  <path fill="url(#grid)" d="M0 0h1200v640H0z"/>
+  <g stroke="#cafa65" stroke-width="1.6">
+    <use href="#wave" transform="translate(-160 -45)"/>
+    <use href="#wave" transform="translate(-140 -37)"/>
+    <use href="#wave" transform="translate(-120 -29)"/>
+    <use href="#wave" transform="translate(-100 -21)"/>
+    <use href="#wave" transform="translate(-80 -13)"/>
+    <use href="#wave" transform="translate(-60 -5)"/>
+    <use href="#wave" transform="translate(-40 3)"/>
+    <use href="#wave" transform="translate(-20 11)"/>
+    <use href="#wave" transform="translate(0 19)"/>
+    <use href="#wave" transform="translate(20 27)"/>
+    <use href="#wave" transform="translate(40 35)"/>
+    <use href="#wave" transform="translate(60 43)"/>
+    <use href="#wave" transform="translate(80 51)"/>
+    <use href="#wave" transform="translate(100 59)"/>
+    <use href="#wave" transform="translate(120 67)"/>
+    <use href="#wave" transform="translate(140 75)"/>
+    <use href="#wave" transform="translate(160 83)"/>
+    <use href="#wave" transform="translate(180 91)"/>
+  </g>
+  <path d="M72 72h36m-18-18v36" stroke="#cafa65" stroke-width="4"/>
+  <g font-family="Arial, sans-serif" font-weight="800" fill="#f7f7f0" font-size="112" letter-spacing="-6">
+    <text x="68" y="240">FLORIPA</text>
+    <text x="68" y="344">TECH</text>
+    <text x="68" y="448">SUMMIT</text>
+  </g>
+  <text x="77" y="551" font-family="monospace" fill="#cafa65" font-size="24" letter-spacing="4">FLORIANÓPOLIS / 2026</text>
+</svg>
