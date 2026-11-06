@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f7f7f0;
+  --color-ink: #14261d;
+  --color-muted: #4b5e51;
+  --color-line: #d5ddd1;
+  --color-accent: #cafa65;
+}
+
+@layer base {
+  body {
+    @apply bg-paper text-ink antialiased;
+  }
+
+  :focus-visible {
+    outline: 3px solid #38692f;
+    outline-offset: 4px;
+  }
+}
+
+@layer components {
+  .action {
+    @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-lg bg-accent px-5 py-3 font-bold text-ink hover:bg-lime-300;
+  }
+}
