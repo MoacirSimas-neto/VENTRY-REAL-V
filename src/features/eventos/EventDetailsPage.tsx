@@ -1,6 +1,7 @@
 import { Link, useLoaderData, type LoaderFunctionArgs } from 'react-router';
 import { dateFormat, priceFormat, timeFormat } from './event-formatters';
 import { getEvento } from './event-service';
+import { NotFound } from '../../shared/ui/NotFound';
 import './event-detail.css';
 
 export function eventDetailsLoader({ params }: LoaderFunctionArgs) {
@@ -10,25 +11,16 @@ export function eventDetailsLoader({ params }: LoaderFunctionArgs) {
 export function EventDetailsPage() {
   const evento = useLoaderData<typeof eventDetailsLoader>();
 
-  if (!evento) {
-    return (
-      <main>
-        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8">
-          <h1 className="text-3xl font-black">Evento não encontrado</h1>
-          <Link to="/" className="mt-4 inline-block underline">Voltar ao início</Link>
-        </div>
-      </main>
-    );
-  }
+  if (!evento) return <NotFound event />;
 
   const inicio = new Date(evento.inicio);
   const preco = priceFormat.format(evento.precoInicial);
 
   return (
-    <main>
-      <article className="mx-auto max-w-6xl px-5 pt-3 pb-14 sm:px-8 sm:pt-5">
-        <Link to="/" className="text-muted mb-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold hover:underline">
-          <span aria-hidden="true">←</span> Voltar ao início
+    <main id="conteudo" tabIndex={-1} className="grow">
+      <article className="site-shell pt-3 pb-14 sm:pt-5">
+        <Link to="/#catalogo" className="text-muted mb-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold hover:underline">
+          <span aria-hidden="true">←</span> Voltar aos eventos
         </Link>
 
         <div className="event-layout">
@@ -53,8 +45,8 @@ export function EventDetailsPage() {
           </div>
 
           <section className="event-summary" aria-labelledby="event-title">
-            <p className="text-muted text-xs font-bold tracking-[0.14em] uppercase">{evento.categoria} · Presencial</p>
-            <h1 id="event-title" className="event-title mt-2 text-balance">
+            <p className="eyebrow">{evento.categoria} · Presencial</p>
+            <h1 id="event-title" className="editorial-title mt-2">
               {evento.nome}
             </h1>
 
@@ -88,7 +80,7 @@ export function EventDetailsPage() {
             </dl>
           </section>
 
-          <aside aria-labelledby="event-price-title" className="event-price grid gap-4 border border-line bg-white p-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:p-5">
+          <aside aria-labelledby="event-price-title" className="event-price grid gap-4 border border-line bg-surface p-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:p-5">
             <div>
               <h2 id="event-price-title" className="text-sm font-semibold text-muted">Ingressos</h2>
               <p className="mt-1 flex flex-wrap items-baseline gap-x-2 text-sm">

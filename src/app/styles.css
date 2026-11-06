@@ -2,10 +2,15 @@
 
 @theme {
   --color-paper: #f7f7f0;
+  --color-surface: #fff;
   --color-ink: #14261d;
   --color-muted: #4b5e51;
   --color-line: #d5ddd1;
   --color-accent: #cafa65;
+  --color-accent-hover: #b7e94f;
+  --color-focus: #38692f;
+  --font-editorial: Georgia, 'Times New Roman', serif;
+  --radius-panel: 0.75rem;
 }
 
 @layer base {
@@ -14,13 +19,52 @@
   }
 
   :focus-visible {
-    outline: 3px solid #38692f;
+    outline: 3px solid var(--color-focus);
     outline-offset: 4px;
   }
 }
 
 @layer components {
+  .site-shell {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply text-xs font-bold tracking-[0.14em] text-muted uppercase;
+  }
+
+  .editorial-title {
+    font: 700 clamp(2.125rem, 1.35rem + 2.8vw, 3.375rem) / 1.06 var(--font-editorial);
+    letter-spacing: -0.045em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
   .action {
-    @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-lg bg-accent px-5 py-3 font-bold text-ink hover:bg-lime-300;
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-bold text-ink hover:bg-accent-hover motion-safe:transition-colors;
+  }
+
+  .featured-art::before {
+    position: absolute;
+    inset: 0.4rem -0.35rem -0.4rem 0.35rem;
+    z-index: -1;
+    border-radius: var(--radius-panel);
+    background: var(--color-ink);
+    content: "";
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .featured-art img,
+    .event-card {
+      transition: transform 200ms ease-out, border-color 200ms ease-out;
+    }
+
+    .featured-art:hover img {
+      transform: perspective(48rem) rotateY(-2deg);
+    }
+
+    .event-card:hover {
+      transform: translateY(-0.2rem);
+    }
   }
 }

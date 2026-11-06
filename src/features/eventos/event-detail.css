@@ -1,19 +1,11 @@
 .event-layout {
-  --event-radius: 0.75rem;
-  --event-heading-font: Georgia, 'Times New Roman', serif;
   display: grid;
   gap: 1.25rem;
   align-items: start;
 }
 
-.event-title {
-  font: 700 clamp(2.125rem, 1.35rem + 2.8vw, 3.375rem) / 1.06 var(--event-heading-font);
-  letter-spacing: -0.045em;
-  overflow-wrap: anywhere;
-}
-
 .event-price {
-  border-radius: var(--event-radius);
+  border-radius: var(--radius-panel);
 }
 
 @media (min-width: 48rem) {
@@ -37,7 +29,7 @@
   isolation: isolate;
   overflow: hidden;
   border: 1px solid var(--color-line);
-  border-radius: var(--event-radius);
+  border-radius: var(--radius-panel);
   background: var(--color-ink);
 }
 
