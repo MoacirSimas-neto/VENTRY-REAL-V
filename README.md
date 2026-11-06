@@ -13,6 +13,22 @@ Ventry is an event ticketing platform in development. It started as a project to
 - **Database:** MySQL schema, seed data, and stored procedures for transactional purchases, stock control, and individual ticket generation. The SQL test script includes manual checks for purchase errors and stock contention.
 - **Frontend:** The initial directory structure is in place. The application is planned around React, TypeScript, Vite, Tailwind CSS, and React Router.
 
+### Roadmap
+
+| Phase | Milestone | Status |
+| --- | --- | --- |
+| 1 | V1 analysis | ██████████ 100% |
+| 2 | Database refactoring | ██████████ 100% |
+| 3 | Stock control and transactions | ██████████ 100% |
+| 4 | Ticketing model | In progress. Individual ticket generation is implemented. Payments and check-in are planned. |
+| 5 | REST API | Planned |
+| 6 | Authentication | Planned |
+| 7 | Application testing and documentation | Planned |
+| 8 | Frontend | Initial folders are in place. The first milestone is the mock flow below. |
+| 9 | Deployment | Planned |
+
+The frontend starts with mock data while the database work continues.
+
 ### First frontend milestone
 
 - [ ] Build the event detail page first and use it to set the visual direction on mobile and desktop.
@@ -38,6 +54,22 @@ O Ventry é uma plataforma de eventos e venda de ingressos em desenvolvimento. O
 
 - **Banco de dados:** schema MySQL, dados de exemplo e procedures para compras com transação, controle de estoque e geração de ingressos individuais. O roteiro SQL inclui verificações manuais de erros de compra e disputa por estoque.
 - **Frontend:** a estrutura inicial de pastas já existe. A aplicação está planejada com React, TypeScript, Vite, Tailwind CSS e React Router.
+
+### Roadmap do projeto
+
+| Fase | Etapa | Status |
+| --- | --- | --- |
+| 1 | Análise da V1 | ██████████ 100% |
+| 2 | Refatoração do banco de dados | ██████████ 100% |
+| 3 | Controle de estoque e transações | ██████████ 100% |
+| 4 | Modelo de ingressos | Em andamento. A geração de ingressos individuais já existe. Pagamentos e check-in estão previstos. |
+| 5 | API REST | Planejada |
+| 6 | Autenticação | Planejada |
+| 7 | Testes e documentação da aplicação | Planejados |
+| 8 | Frontend | Pastas iniciais criadas. A primeira entrega é o fluxo com mocks descrito abaixo. |
+| 9 | Deploy | Planejado |
+
+O frontend começa com dados fictícios enquanto o trabalho no banco continua.
 
 ### Primeira entrega do frontend
 
