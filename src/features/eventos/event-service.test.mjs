@@ -44,6 +44,9 @@ test('searches event, venue and city without accents, case or surrounding spaces
 
   assert.deepEqual(buscar('  SABORES '), ['3']);
   assert.deepEqual(buscar('Mercado de Sao'), ['3']);
+  assert.deepEqual(buscar('São José'), ['3']);
+  assert.deepEqual(buscar('sao jose', 'Gastronomia'), ['3']);
+  assert.deepEqual(buscar('sao jose', 'Cultura'), []);
   assert.deepEqual(buscar('Palhoca'), ['4']);
   assert.deepEqual(buscar('  Florianópolis  '), ['1', '2']);
   assert.deepEqual(buscar('florianopolis', 'Música'), ['2']);

@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useLoaderData, useLocation } from 'react-router';
+import { Link, useLoaderData, useLocation, useNavigationType, useSearchParams } from 'react-router';
 import { dateFormat, priceFormat, timeFormat } from './event-formatters';
 import { filtrarEventos, getCatalogo, getEventosDaRegiao, getEventosEmAlta, type Evento } from './event-service';
 
 export const homeLoader = getCatalogo;
 
-function EventCard({ evento }: { evento: Evento }) {
+function EventCard({ evento, search }: { evento: Evento; search: string }) {
   return (
     <article className="h-full">
       <Link
-        to={'/eventos/' + evento.id}
+        to={{ pathname: '/eventos/' + evento.id, search }}
         aria-labelledby={'evento-' + evento.id}
         className="event-card group flex h-full flex-col rounded-panel border border-line bg-surface hover:border-muted"
       >
@@ -23,13 +23,13 @@ function EventCard({ evento }: { evento: Evento }) {
         />
         <div className="flex flex-1 flex-col p-4 sm:p-5">
           <p className="eyebrow">{evento.categoria}</p>
-          <h3 id={'evento-' + evento.id} className="mt-2 font-editorial text-2xl leading-tight font-bold wrap-anywhere group-hover:underline">
+          <h3 id={'evento-' + evento.id} className="mt-2 font-editorial text-2xl leading-tight font-bold wrap-anywhere group-hover:underline sm:min-h-[2lh]">
             {evento.nome}
           </h3>
           <time dateTime={evento.inicio} className="mt-3 text-sm font-semibold">
             {dateFormat.format(new Date(evento.inicio))}
           </time>
-          <p className="mt-1 text-sm text-muted">{evento.local.cidade} · {evento.local.nome}</p>
+          <p className="mt-1 text-sm text-muted">{evento.local.cidade} <span aria-hidden="true">·</span> {evento.local.nome}</p>
           <div className="mt-auto pt-4">
             <div className="flex items-center justify-between gap-3 border-t border-line pt-3">
               <p className="text-sm text-muted">A partir de <strong className="text-base text-ink tabular-nums">{priceFormat.format(evento.precoInicial)}</strong></p>
@@ -44,25 +44,27 @@ function EventCard({ evento }: { evento: Evento }) {
   );
 }
 
-export function HomePage({ preview }: { preview?: 'hibrida' | 'escura' }) {
+export function HomePage() {
   const { regiao, regioes, destaque, eventos, categorias } = useLoaderData<typeof homeLoader>();
   const { hash, key, search } = useLocation();
-  const params = new URLSearchParams(search);
-  const [regiaoId, setRegiaoId] = useState(() =>
-    regioes.find(item => item.id === params.get('regiao'))?.id ?? regiao.id,
-  );
-  const [categoria, setCategoria] = useState(() => categorias.find(item => item === params.get('categoria')) ?? '');
-  const [busca, setBusca] = useState(() => params.get('busca') ?? '');
+  const navigationType = useNavigationType();
+  const [params, setParams] = useSearchParams();
+  const regiaoId = regioes.find(item => item.id === params.get('regiao'))?.id ?? regiao.id;
+  const categoria = categorias.find(item => item === params.get('categoria')) ?? '';
+  const busca = params.get('busca') ?? '';
+  const buscaAtiva = busca.trim().length > 0;
   const [agora] = useState(Date.now);
   const buscaInput = useRef<HTMLInputElement>(null);
   const eventosDaRegiao = getEventosDaRegiao(regiaoId);
   const emAlta = getEventosEmAlta(eventosDaRegiao, agora);
   const filtrados = filtrarEventos(eventosDaRegiao, busca, categoria);
-  const outraPaleta = preview === 'hibrida' ? 'escura' : 'hibrida';
-  const filtros = new URLSearchParams();
-  if (busca) filtros.set('busca', busca);
-  if (categoria) filtros.set('categoria', categoria);
-  if (regiaoId !== regiao.id) filtros.set('regiao', regiaoId);
+
+  function atualizarFiltro(nome: 'busca' | 'categoria' | 'regiao', valor: string) {
+    const proximos = new URLSearchParams(params);
+    if (valor) proximos.set(nome, valor);
+    else proximos.delete(nome);
+    setParams(proximos, { replace: true, preventScrollReset: true });
+  }
 
 
   const capasDeFundo = eventos.filter(evento => evento.id !== destaque.id).slice(0, 2);
@@ -71,21 +73,12 @@ export function HomePage({ preview }: { preview?: 'hibrida' | 'escura' }) {
 
 
   useEffect(() => {
-    if (hash === '#catalogo') catalogHeading.current?.focus({ preventScroll: true });
-  }, [hash, key]);
+    if (hash === '#catalogo' && navigationType !== 'REPLACE') catalogHeading.current?.focus({ preventScroll: true });
+  }, [hash, key, navigationType]);
 
   return (
     <main id="conteudo" tabIndex={-1} className="grow">
       <div className="site-shell pt-8 pb-12 sm:pt-12 sm:pb-16">
-        {preview && (
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-2 rounded-panel border border-line bg-surface px-4 py-2">
-            <p className="text-sm font-semibold">Prévia {preview === 'hibrida' ? 'híbrida' : 'escura'}</p>
-            <Link to={{ pathname: '/preview/' + outraPaleta, search: filtros.toString(), hash }}
-              className="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-semibold underline underline-offset-4">
-              Ver prévia {outraPaleta === 'hibrida' ? 'híbrida' : 'escura'}
-            </Link>
-          </div>
-        )}
         <section aria-labelledby="destaques">
           <p className="eyebrow flex items-center gap-2">
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
@@ -125,69 +118,39 @@ export function HomePage({ preview }: { preview?: 'hibrida' | 'escura' }) {
               </time>
               <p className="mt-1 text-sm text-muted">{destaque.local.nome} · {destaque.local.cidade}</p>
               <p className="mt-4 text-sm text-muted">A partir de <strong className="text-base text-ink tabular-nums">{priceFormat.format(destaque.precoInicial)}</strong></p>
-              <Link to={'/eventos/' + destaque.id} className="action mt-4 w-full sm:w-auto" aria-label={'Ver detalhes de ' + destaque.nome}>
+              <Link to={{ pathname: '/eventos/' + destaque.id, search }} className="action mt-4 w-full sm:w-auto" aria-label={'Ver detalhes de ' + destaque.nome}>
                 Ver evento <span aria-hidden="true">→</span>
               </Link>
             </div>
           </div>
         </section>
 
-        <section aria-labelledby="em-alta" className="mt-10 rounded-panel border border-line bg-surface p-5 sm:mt-14 sm:p-7">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="eyebrow">Radar Ventry</p>
-              <h2 id="em-alta" className="mt-2 font-editorial text-3xl leading-tight font-bold sm:text-4xl">Em alta na sua região</h2>
+        <section aria-labelledby="catalogo" className="mt-10 border-t border-line pt-7 sm:mt-14">
+          <p className="eyebrow">Agenda da região</p>
+          <h2 id="catalogo" ref={catalogHeading} tabIndex={-1} className="mt-2 scroll-mt-6 font-editorial text-3xl leading-tight font-bold sm:text-4xl">{buscaAtiva ? 'Resultados da busca' : 'Explore os eventos'}</h2>
+          <div className="mt-5 grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+            <div role="search" aria-label="Buscar no catálogo">
+              <label htmlFor="busca-eventos" className="block text-sm font-semibold">Buscar por evento, local ou cidade</label>
+              <input
+                ref={buscaInput}
+                id="busca-eventos"
+                type="search"
+                value={busca}
+                onChange={event => atualizarFiltro('busca', event.target.value)}
+                placeholder="Ex.: Noite na Ilha, Arena Floripa ou Palhoça"
+                className="mt-2 min-h-11 w-full rounded-lg border border-muted bg-surface px-3 py-2 text-ink placeholder:text-muted"
+              />
             </div>
             <label className="grid w-full gap-1.5 text-sm font-semibold sm:w-auto">
               Região
               <select
                 value={regiaoId}
-                onChange={event => setRegiaoId(event.target.value)}
+                onChange={event => atualizarFiltro('regiao', event.target.value === regiao.id ? '' : event.target.value)}
                 className="min-h-11 w-full cursor-pointer rounded-lg border border-muted bg-paper px-3 py-2 text-ink"
               >
                 {regioes.map(item => <option key={item.id} value={item.id}>{item.nome}</option>)}
               </select>
             </label>
-          </div>
-          <p className="mt-3 text-sm text-muted">Eventos futuros ordenados por interesse simulado. A região também recorta o catálogo.</p>
-          <p className="sr-only" role="status">{emAlta.length} {emAlta.length === 1 ? 'evento em alta' : 'eventos em alta'}</p>
-          {emAlta.length > 0 ? (
-            <ol className="mt-5 grid gap-3 lg:grid-cols-3">
-              {emAlta.map((evento, index) => (
-                <li key={evento.id} className="min-w-0">
-                  <Link
-                    to={'/eventos/' + evento.id}
-                    className="trend-link flex min-h-16 items-center gap-3 rounded-lg border border-line bg-paper px-3 py-2 hover:border-muted"
-                  >
-                    <span aria-hidden="true" className="font-editorial text-2xl font-bold tabular-nums">{String(index + 1).padStart(2, '0')}</span>
-                    <img src={evento.capa.src} alt="" width="96" height="64" loading="lazy" className="h-11 w-16 shrink-0 rounded-sm object-cover" />
-                    <span className="min-w-0">
-                      <strong className="block text-sm wrap-anywhere">{evento.nome}</strong>
-                      <span className="block text-sm text-muted">{evento.local.cidade}</span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <p className="mt-5 border-t border-line pt-4 text-muted">Ainda não há eventos futuros em alta nesta região.</p>
-          )}
-        </section>
-
-        <section aria-labelledby="catalogo" className="mt-10 border-t border-line pt-7 sm:mt-14">
-          <p className="eyebrow">Agenda da região</p>
-          <h2 id="catalogo" ref={catalogHeading} tabIndex={-1} className="mt-2 scroll-mt-6 font-editorial text-3xl leading-tight font-bold sm:text-4xl">Explore os eventos</h2>
-          <div role="search" aria-label="Buscar no catálogo" className="mt-5 max-w-xl">
-            <label htmlFor="busca-eventos" className="block text-sm font-semibold">Buscar por evento, local ou cidade</label>
-            <input
-              ref={buscaInput}
-              id="busca-eventos"
-              type="search"
-              value={busca}
-              onChange={event => setBusca(event.target.value)}
-              placeholder="Ex.: Noite na Ilha, Arena Floripa ou Palhoça"
-              className="mt-2 min-h-11 w-full rounded-lg border border-muted bg-surface px-3 py-2 text-ink placeholder:text-muted"
-            />
           </div>
           <div role="group" aria-label="Categorias de eventos" className="mt-5 flex flex-wrap gap-2">
             {['', ...categorias].map(item => (
@@ -195,7 +158,7 @@ export function HomePage({ preview }: { preview?: 'hibrida' | 'escura' }) {
                 key={item}
                 type="button"
                 aria-pressed={categoria === item}
-                onClick={() => setCategoria(item)}
+                onClick={() => atualizarFiltro('categoria', item)}
                 className="category-filter inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-full border border-muted bg-surface px-3.5 text-sm font-semibold hover:bg-paper aria-pressed:border-accent aria-pressed:bg-accent aria-pressed:text-on-accent aria-pressed:hover:bg-accent"
               >
                 {categoria === item && (
@@ -212,16 +175,16 @@ export function HomePage({ preview }: { preview?: 'hibrida' | 'escura' }) {
             <ul className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {filtrados.map(evento => (
                 <li key={evento.id} className="min-w-0">
-                  <EventCard evento={evento} />
+                  <EventCard evento={evento} search={search} />
                 </li>
               ))}
             </ul>
-          ) : busca.trim() ? (
+          ) : buscaAtiva ? (
             <div className="mt-4 rounded-panel border border-line bg-surface p-5">
               <h3 className="font-editorial text-2xl font-bold">Nenhum evento encontrado</h3>
               <p className="mt-2 text-sm text-muted">Tente outro termo ou limpe a busca para ver os eventos desta categoria e região.</p>
               <button type="button" className="action mt-4 cursor-pointer" onClick={() => {
-                setBusca('');
+                atualizarFiltro('busca', '');
                 buscaInput.current?.focus();
               }}>Limpar busca</button>
             </div>
@@ -230,10 +193,42 @@ export function HomePage({ preview }: { preview?: 'hibrida' | 'escura' }) {
               <h3 className="font-editorial text-2xl font-bold">Nenhum evento nesta categoria</h3>
               <p className="mt-2 text-sm text-muted">Veja as outras categorias disponíveis para a região escolhida.</p>
               <button type="button" className="action mt-4 cursor-pointer" onClick={() => {
-                setCategoria('');
+                atualizarFiltro('categoria', '');
                 catalogHeading.current?.focus();
               }}>Limpar filtro</button>
             </div>
+          )}
+        </section>
+
+        <section aria-labelledby="em-alta" className="mt-10 rounded-panel border border-line bg-surface p-5 sm:mt-14 sm:p-7">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow">Descoberta · Radar Ventry</p>
+              <h2 id="em-alta" className="mt-2 font-editorial text-3xl leading-tight font-bold sm:text-4xl">Em alta na sua região</h2>
+            </div>
+          </div>
+          <p className="mt-3 text-sm text-muted">Sugestões da região por interesse simulado, independentemente da busca e da categoria.</p>
+          <p className="sr-only" role="status">{emAlta.length} {emAlta.length === 1 ? 'evento em alta' : 'eventos em alta'}</p>
+          {emAlta.length > 0 ? (
+            <ol className="mt-5 grid gap-3 lg:grid-cols-3">
+              {emAlta.map((evento, index) => (
+                <li key={evento.id} className="min-w-0">
+                  <Link
+                    to={{ pathname: '/eventos/' + evento.id, search }}
+                    className="trend-link flex min-h-16 items-center gap-3 rounded-lg border border-line bg-paper px-3 py-2 hover:border-muted"
+                  >
+                    <span aria-hidden="true" className="font-editorial text-2xl font-bold tabular-nums">{String(index + 1).padStart(2, '0')}</span>
+                    <img src={evento.capa.src} alt="" width="96" height="64" loading="lazy" className="h-11 w-16 shrink-0 rounded-sm object-cover" />
+                    <span className="min-w-0">
+                      <strong className="block text-sm wrap-anywhere">{evento.nome}</strong>
+                      <span className="block text-sm text-muted">{evento.local.cidade}</span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="mt-5 border-t border-line pt-4 text-muted">Ainda não há eventos futuros em alta nesta região.</p>
           )}
         </section>
       </div>

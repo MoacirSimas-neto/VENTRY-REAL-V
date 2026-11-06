@@ -1,4 +1,4 @@
-import { Link, useLoaderData, type LoaderFunctionArgs } from 'react-router';
+import { Link, useLoaderData, useLocation, type LoaderFunctionArgs } from 'react-router';
 import { dateFormat, priceFormat, timeFormat } from './event-formatters';
 import { getEvento } from './event-service';
 import { TicketSelection } from './TicketSelection';
@@ -12,6 +12,7 @@ export function eventDetailsLoader({ params }: LoaderFunctionArgs) {
 
 export function EventDetailsPage() {
   const evento = useLoaderData<typeof eventDetailsLoader>();
+  const { search } = useLocation();
 
   if (!evento) return <NotFound event />;
 
@@ -21,7 +22,7 @@ export function EventDetailsPage() {
   return (
     <main id="conteudo" tabIndex={-1} className="grow">
       <article className="site-shell pt-3 pb-14 sm:pt-5">
-        <Link to="/#catalogo" className="text-muted mb-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold hover:underline">
+        <Link to={{ pathname: "/", search, hash: "#catalogo" }} className="text-muted mb-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold hover:underline">
           <span aria-hidden="true">←</span> Voltar aos eventos
         </Link>
 

@@ -1,23 +1,19 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { createBrowserRouter, Link, Outlet, ScrollRestoration, useLocation, useMatch } from 'react-router';
+import { createBrowserRouter, Link, Outlet, ScrollRestoration, useLocation } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 import { EventDetailsPage, eventDetailsLoader } from '../features/eventos/EventDetailsPage';
 import { HomePage, homeLoader } from '../features/eventos/HomePage';
 import { NotFound } from '../shared/ui/NotFound';
 import './styles.css';
-import './preview-themes.css';
 
 function Layout() {
-  const hibrida = useMatch('/preview/hibrida');
-  const escura = useMatch('/preview/escura');
-  const { pathname, search } = useLocation();
-  const preview = hibrida ? 'hibrida' : escura ? 'escura' : undefined;
-  const inicio = preview ? { pathname, search } : { pathname: '/' };
-  const catalogo = { ...inicio, hash: '#catalogo' };
+  const { search } = useLocation();
+  const inicio = { pathname: '/' };
+  const catalogo = { ...inicio, search, hash: '#catalogo' };
 
   return (
-    <div className="flex min-h-dvh flex-col" data-preview={preview}>
+    <div className="flex min-h-dvh flex-col">
       <a href="#conteudo" className="action sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-5 focus:z-10">
         Ir para o conteúdo
       </a>
@@ -53,9 +49,16 @@ const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      { index: true, loader: homeLoader, element: <HomePage />, hydrateFallbackElement: null },
-      { path: 'preview/hibrida', loader: homeLoader, element: <HomePage key="hibrida" preview="hibrida" />, hydrateFallbackElement: null },
-      { path: 'preview/escura', loader: homeLoader, element: <HomePage key="escura" preview="escura" />, hydrateFallbackElement: null },
+      {
+        index: true,
+        loader: homeLoader,
+        element: <HomePage />,
+        hydrateFallbackElement: null,
+        shouldRevalidate: ({ currentUrl, nextUrl, defaultShouldRevalidate }) =>
+          currentUrl.pathname === nextUrl.pathname && currentUrl.search !== nextUrl.search
+            ? false
+            : defaultShouldRevalidate,
+      },
       { path: 'eventos/:id', loader: eventDetailsLoader, element: <EventDetailsPage />, hydrateFallbackElement: null },
       { path: '*', element: <NotFound /> },
     ],
