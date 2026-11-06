@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640">
+  <rect width="1200" height="640" fill="#562036"/>
+  <path d="M975 62 681 523h526Z" fill="#efa972"/><circle cx="968" cy="328" r="147" fill="#ed7081"/><path d="M968 178v300M818 328h300" stroke="#562036" stroke-width="4"/><circle cx="968" cy="328" r="54" fill="#fff1ce"/>
+  <g fill="#fff1ce" font-family="Arial, sans-serif" font-weight="800" font-size="116" letter-spacing="-4">
+    <text x="72" y="290">MOSTRA</text>
+    <text x="72" y="405">LUZ DO SUL</text>
+  </g>
+  <text x="76" y="120" fill="#efa972" font-family="monospace" font-size="28" letter-spacing="5">BIGUAÇU / 2026</text>
+</svg>

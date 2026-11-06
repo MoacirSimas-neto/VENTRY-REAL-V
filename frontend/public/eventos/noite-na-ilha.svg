@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640">
+  <rect width="1200" height="640" fill="#302057"/>
+  <g fill="none" stroke="#b996fa" stroke-width="2"><circle cx="935" cy="310" r="60"/><circle cx="935" cy="310" r="90"/><circle cx="935" cy="310" r="120"/><circle cx="935" cy="310" r="150"/><circle cx="935" cy="310" r="180"/><circle cx="935" cy="310" r="210"/><circle cx="935" cy="310" r="240"/><circle cx="935" cy="310" r="270"/><circle cx="935" cy="310" r="300"/></g><circle cx="935" cy="310" r="78" fill="#f9b9ee"/><circle cx="935" cy="310" r="12" fill="#302057"/>
+  <g fill="#f9b9ee" font-family="Arial, sans-serif" font-weight="800" font-size="116" letter-spacing="-4">
+    <text x="72" y="290">NOITE</text>
+    <text x="72" y="405">NA ILHA</text>
+  </g>
+  <text x="76" y="120" fill="#b996fa" font-family="monospace" font-size="28" letter-spacing="5">FLORIANÓPOLIS / 2026</text>
+</svg>

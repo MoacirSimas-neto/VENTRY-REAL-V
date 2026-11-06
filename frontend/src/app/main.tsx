@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, Link, Outlet } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 import { EventDetailsPage, eventDetailsLoader } from '../features/eventos/EventDetailsPage';
+import { HomePage, homeLoader } from '../features/eventos/HomePage';
 import './styles.css';
 
 function Layout() {
@@ -21,21 +22,11 @@ function Layout() {
   );
 }
 
-function Home() {
-  return (
-    <main className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-20">
-      <p className="text-sm font-bold tracking-widest text-muted uppercase">Evento em destaque</p>
-      <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-6xl">Floripa Tech Summit</h1>
-      <Link to="/eventos/1" className="action mt-6">Ver detalhes do evento <span aria-hidden="true">→</span></Link>
-    </main>
-  );
-}
-
 const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, loader: homeLoader, element: <HomePage />, hydrateFallbackElement: null },
       { path: 'eventos/:id', loader: eventDetailsLoader, element: <EventDetailsPage />, hydrateFallbackElement: null },
       {
         path: '*',

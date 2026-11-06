@@ -1,23 +1,6 @@
 import { Link, useLoaderData, type LoaderFunctionArgs } from 'react-router';
+import { dateFormat, priceFormat, timeFormat } from './event-formatters';
 import { getEvento } from './event-service';
-
-const dateFormat = new Intl.DateTimeFormat('pt-BR', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  timeZone: 'America/Sao_Paulo',
-});
-
-const timeFormat = new Intl.DateTimeFormat('pt-BR', {
-  hour: '2-digit',
-  minute: '2-digit',
-  timeZone: 'America/Sao_Paulo',
-});
-
-const priceFormat = new Intl.NumberFormat('pt-BR', {
-  style: 'currency',
-  currency: 'BRL',
-});
 
 export function eventDetailsLoader({ params }: LoaderFunctionArgs) {
   return getEvento(params.id ?? '');
@@ -53,7 +36,7 @@ export function EventDetailsPage() {
 
       <div className="mt-7 grid gap-8 md:mt-10 md:grid-cols-[minmax(0,1fr)_19rem] md:gap-x-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <section aria-labelledby="event-title">
-          <p className="text-xs font-bold tracking-widest text-muted uppercase">Tecnologia · Presencial</p>
+          <p className="text-xs font-bold tracking-widest text-muted uppercase">{evento.categoria} · Presencial</p>
           <h1 id="event-title" className="mt-2 text-4xl leading-none font-black tracking-tight sm:text-6xl">
             {evento.nome}
           </h1>

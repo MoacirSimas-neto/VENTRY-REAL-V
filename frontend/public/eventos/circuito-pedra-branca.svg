@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640">
+  <rect width="1200" height="640" fill="#123661"/>
+  <g fill="none" stroke="#72dfdc" stroke-width="4"><path d="M950 -30 740 285q-110 165 45 226l220 100"/><path d="M976 -30 740 285q-110 165 45 226l246 100"/><path d="M1002 -30 740 285q-110 165 45 226l272 100"/><path d="M1028 -30 740 285q-110 165 45 226l298 100"/><path d="M1054 -30 740 285q-110 165 45 226l324 100"/><path d="M1080 -30 740 285q-110 165 45 226l350 100"/><path d="M1106 -30 740 285q-110 165 45 226l376 100"/></g>
+  <g fill="#e7fffc" font-family="Arial, sans-serif" font-weight="800" font-size="83" letter-spacing="-4">
+    <text x="72" y="290">CIRCUITO</text>
+    <text x="72" y="405">PEDRA BRANCA</text>
+  </g>
+  <text x="76" y="120" fill="#72dfdc" font-family="monospace" font-size="28" letter-spacing="5">PALHOÇA / 2026</text>
+</svg>
