@@ -36,6 +36,20 @@ export function getEventosDaRegiao(regiaoId: string) {
     : eventos.filter(evento => regiao.cidades.includes(evento.local.cidade));
 }
 
+function normalizarBusca(valor: string) {
+  return valor.trim().toLocaleLowerCase('pt-BR').normalize('NFD').replace(/\p{M}/gu, '');
+}
+
+export function filtrarEventos(eventosDaRegiao: readonly Evento[], busca: string, categoria: string) {
+  const termo = normalizarBusca(busca);
+  return eventosDaRegiao.filter(evento =>
+    (!categoria || evento.categoria === categoria) &&
+    (!termo || [evento.nome, evento.local.nome, evento.local.cidade]
+      .some(valor => normalizarBusca(valor).includes(termo))),
+  );
+}
+
+
 export function getEventosEmAlta(eventosDaRegiao: readonly Evento[], agora: number) {
   return eventosDaRegiao
     .filter(evento => Date.parse(evento.inicio) > agora)

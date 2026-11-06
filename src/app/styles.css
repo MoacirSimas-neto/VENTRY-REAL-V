@@ -1,19 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #f7f7f0;
-  --color-surface: #fff;
-  --color-ink: #14261d;
-  --color-muted: #4b5e51;
-  --color-line: #d5ddd1;
-  --color-accent: #cafa65;
-  --color-accent-hover: #b7e94f;
-  --color-focus: #38692f;
+  --color-paper: #111218;
+  --color-surface: #1c1e29;
+  --color-ink: #f8fafc;
+  --color-muted: #b9bcd0;
+  --color-line: #37394d;
+  --color-accent: #c4b5fd;
+  --color-on-accent: #21143d;
+  --color-accent-hover: #ddd6fe;
+  --color-focus: #c4b5fd;
   --font-editorial: Georgia, 'Times New Roman', serif;
   --radius-panel: 0.75rem;
 }
 
 @layer base {
+  :root { color-scheme: dark; }
+
   body {
     @apply bg-paper text-ink antialiased;
   }
@@ -41,11 +44,11 @@
   }
 
   .action {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-bold text-ink hover:bg-accent-hover motion-safe:transition-colors;
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-bold text-on-accent hover:bg-accent-hover motion-safe:transition-colors;
   }
 
   .hero-panel {
-    background: linear-gradient(135deg, var(--color-surface) 48%, color-mix(in srgb, var(--color-paper), var(--color-focus) 7%));
+    background: radial-gradient(ellipse at 30% 75%, color-mix(in srgb, var(--color-accent) 17%, var(--color-paper)), var(--color-paper) 68%);
   }
 
   .featured-art {
@@ -61,8 +64,8 @@
     height: 73%;
     object-fit: cover;
     border-radius: var(--radius-panel);
-    outline: 1px solid #ffffff52;
-    box-shadow: 0 0.3rem 0 #14261d73, 0 0.8rem 1.4rem #14261d40;
+    outline: 1px solid color-mix(in srgb, var(--color-accent) 55%, transparent);
+    box-shadow: 0 0.3rem 0 #0008, 0 1rem 1.5rem #0009;
   }
 
   .featured-poster--back {
@@ -98,7 +101,7 @@
 
     .event-card:hover,
     .trend-link:hover {
-      box-shadow: 0 0.3rem 0.8rem #14261d19;
+      box-shadow: 0 0.3rem 0.8rem color-mix(in srgb, var(--color-accent) 18%, transparent);
     }
   }
 }

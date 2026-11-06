@@ -37,3 +37,17 @@ test('ranks only future regional events by mock interest without changing the ca
   assert.deepEqual(service.getEventosEmAlta(eventos, Date.parse('2027-01-01')), []);
   assert.deepEqual(eventos.map(evento => evento.id), ['1', '2', '3', '4', '5']);
 });
+
+test('searches event, venue and city without accents, case or surrounding spaces', async () => {
+  const { eventos } = await service.getCatalogo();
+  const buscar = (termo, categoria = '') => service.filtrarEventos(eventos, termo, categoria).map(evento => evento.id);
+
+  assert.deepEqual(buscar('  SABORES '), ['3']);
+  assert.deepEqual(buscar('Mercado de Sao'), ['3']);
+  assert.deepEqual(buscar('Palhoca'), ['4']);
+  assert.deepEqual(buscar('  Florianópolis  '), ['1', '2']);
+  assert.deepEqual(buscar('florianopolis', 'Música'), ['2']);
+  assert.deepEqual(buscar('florianopolis', 'Cultura'), []);
+  assert.deepEqual(buscar('sem resultado'), []);
+  assert.deepEqual(buscar('   '), ['1', '2', '3', '4', '5']);
+});

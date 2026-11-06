@@ -30,7 +30,7 @@
   overflow: hidden;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-panel);
-  background: var(--color-ink);
+  background: var(--color-paper);
 }
 
 .event-ticket-stage {
@@ -56,7 +56,7 @@
   inset: 0;
   border-radius: 0.625rem;
   background: color-mix(in srgb, var(--color-paper), var(--color-ink) 24%);
-  box-shadow: 0.16rem 0.2rem 0 #14261d8c, 0.22rem 0.48rem 0.85rem #0007;
+  box-shadow: 0.16rem 0.2rem 0 #0008, 0.22rem 0.48rem 0.85rem #0007;
   transform: translate3d(0.14rem, 0.2rem, -0.24rem);
   content: "";
 }
@@ -70,9 +70,9 @@
   border: 1px solid var(--color-line);
   border-radius: 0.625rem;
   overflow: hidden;
-  background: linear-gradient(150deg, var(--color-surface), var(--color-paper) 60%, #dce4d3);
+  background: linear-gradient(150deg, var(--color-accent-hover), var(--color-accent) 65%, color-mix(in srgb, var(--color-accent), var(--color-on-accent) 18%));
   box-shadow: inset 0 1px 0 #fffe;
-  color: var(--color-ink);
+  color: var(--color-on-accent);
   font-size: clamp(0.65rem, 2.2vw, 1.15rem);
 }
 
@@ -110,8 +110,8 @@
   grid-column: 2;
   grid-row: 1 / span 3;
   align-self: stretch;
-  border-left: 1px dashed var(--color-muted);
-  background: radial-gradient(circle at 70% 50%, var(--color-accent) 0 0.18em, transparent 0.2em);
+  border-left: 1px dashed currentColor;
+  background: radial-gradient(circle at 70% 50%, currentColor 0 0.18em, transparent 0.2em);
 }
 
 

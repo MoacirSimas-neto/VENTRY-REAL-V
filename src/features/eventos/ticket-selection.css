@@ -27,11 +27,11 @@
 .ticket-lot-stub::after { right: -0.4rem; }
 
 .ticket-stepper {
-  @apply inline-grid min-h-11 min-w-11 cursor-pointer place-items-center rounded-lg border border-muted bg-paper text-xl font-bold hover:bg-accent motion-safe:transition-colors;
+  @apply inline-grid min-h-11 min-w-11 cursor-pointer place-items-center rounded-lg border border-muted bg-paper text-xl font-bold hover:bg-accent hover:text-on-accent motion-safe:transition-colors;
 }
 
 .ticket-stepper[aria-disabled="true"] {
-  @apply cursor-not-allowed border-line bg-surface text-muted;
+  @apply cursor-not-allowed border-line bg-surface text-muted hover:bg-surface hover:text-muted;
 }
 
 .ticket-mobile-bar {

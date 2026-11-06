@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLoaderData, useLocation } from 'react-router';
 import { dateFormat, priceFormat, timeFormat } from './event-formatters';
-import { getCatalogo, getEventosDaRegiao, getEventosEmAlta, type Evento } from './event-service';
+import { filtrarEventos, getCatalogo, getEventosDaRegiao, getEventosEmAlta, type Evento } from './event-service';
 
 export const homeLoader = getCatalogo;
 
@@ -44,20 +44,31 @@ function EventCard({ evento }: { evento: Evento }) {
   );
 }
 
-export function HomePage() {
+export function HomePage({ preview }: { preview?: 'hibrida' | 'escura' }) {
   const { regiao, regioes, destaque, eventos, categorias } = useLoaderData<typeof homeLoader>();
-  const [regiaoId, setRegiaoId] = useState(regiao.id);
-  const [categoria, setCategoria] = useState('');
+  const { hash, key, search } = useLocation();
+  const params = new URLSearchParams(search);
+  const [regiaoId, setRegiaoId] = useState(() =>
+    regioes.find(item => item.id === params.get('regiao'))?.id ?? regiao.id,
+  );
+  const [categoria, setCategoria] = useState(() => categorias.find(item => item === params.get('categoria')) ?? '');
+  const [busca, setBusca] = useState(() => params.get('busca') ?? '');
   const [agora] = useState(Date.now);
+  const buscaInput = useRef<HTMLInputElement>(null);
   const eventosDaRegiao = getEventosDaRegiao(regiaoId);
   const emAlta = getEventosEmAlta(eventosDaRegiao, agora);
-  const filtrados = categoria
-    ? eventosDaRegiao.filter(evento => evento.categoria === categoria)
-    : eventosDaRegiao;
+  const filtrados = filtrarEventos(eventosDaRegiao, busca, categoria);
+  const outraPaleta = preview === 'hibrida' ? 'escura' : 'hibrida';
+  const filtros = new URLSearchParams();
+  if (busca) filtros.set('busca', busca);
+  if (categoria) filtros.set('categoria', categoria);
+  if (regiaoId !== regiao.id) filtros.set('regiao', regiaoId);
+
+
   const capasDeFundo = eventos.filter(evento => evento.id !== destaque.id).slice(0, 2);
   const inicio = new Date(destaque.inicio);
   const catalogHeading = useRef<HTMLHeadingElement>(null);
-  const { hash, key } = useLocation();
+
 
   useEffect(() => {
     if (hash === '#catalogo') catalogHeading.current?.focus({ preventScroll: true });
@@ -66,6 +77,15 @@ export function HomePage() {
   return (
     <main id="conteudo" tabIndex={-1} className="grow">
       <div className="site-shell pt-8 pb-12 sm:pt-12 sm:pb-16">
+        {preview && (
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-2 rounded-panel border border-line bg-surface px-4 py-2">
+            <p className="text-sm font-semibold">Prévia {preview === 'hibrida' ? 'híbrida' : 'escura'}</p>
+            <Link to={{ pathname: '/preview/' + outraPaleta, search: filtros.toString(), hash }}
+              className="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-semibold underline underline-offset-4">
+              Ver prévia {outraPaleta === 'hibrida' ? 'híbrida' : 'escura'}
+            </Link>
+          </div>
+        )}
         <section aria-labelledby="destaques">
           <p className="eyebrow flex items-center gap-2">
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
@@ -157,6 +177,18 @@ export function HomePage() {
         <section aria-labelledby="catalogo" className="mt-10 border-t border-line pt-7 sm:mt-14">
           <p className="eyebrow">Agenda da região</p>
           <h2 id="catalogo" ref={catalogHeading} tabIndex={-1} className="mt-2 scroll-mt-6 font-editorial text-3xl leading-tight font-bold sm:text-4xl">Explore os eventos</h2>
+          <div role="search" aria-label="Buscar no catálogo" className="mt-5 max-w-xl">
+            <label htmlFor="busca-eventos" className="block text-sm font-semibold">Buscar por evento, local ou cidade</label>
+            <input
+              ref={buscaInput}
+              id="busca-eventos"
+              type="search"
+              value={busca}
+              onChange={event => setBusca(event.target.value)}
+              placeholder="Ex.: Noite na Ilha, Arena Floripa ou Palhoça"
+              className="mt-2 min-h-11 w-full rounded-lg border border-muted bg-surface px-3 py-2 text-ink placeholder:text-muted"
+            />
+          </div>
           <div role="group" aria-label="Categorias de eventos" className="mt-5 flex flex-wrap gap-2">
             {['', ...categorias].map(item => (
               <button
@@ -164,7 +196,7 @@ export function HomePage() {
                 type="button"
                 aria-pressed={categoria === item}
                 onClick={() => setCategoria(item)}
-                className="category-filter inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-full border border-muted bg-surface px-3.5 text-sm font-semibold hover:bg-paper aria-pressed:bg-ink aria-pressed:text-paper aria-pressed:hover:bg-ink"
+                className="category-filter inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-full border border-muted bg-surface px-3.5 text-sm font-semibold hover:bg-paper aria-pressed:border-accent aria-pressed:bg-accent aria-pressed:text-on-accent aria-pressed:hover:bg-accent"
               >
                 {categoria === item && (
                   <svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75">
@@ -184,6 +216,15 @@ export function HomePage() {
                 </li>
               ))}
             </ul>
+          ) : busca.trim() ? (
+            <div className="mt-4 rounded-panel border border-line bg-surface p-5">
+              <h3 className="font-editorial text-2xl font-bold">Nenhum evento encontrado</h3>
+              <p className="mt-2 text-sm text-muted">Tente outro termo ou limpe a busca para ver os eventos desta categoria e região.</p>
+              <button type="button" className="action mt-4 cursor-pointer" onClick={() => {
+                setBusca('');
+                buscaInput.current?.focus();
+              }}>Limpar busca</button>
+            </div>
           ) : (
             <div className="mt-4 rounded-panel border border-line bg-surface p-5">
               <h3 className="font-editorial text-2xl font-bold">Nenhum evento nesta categoria</h3>
