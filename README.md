@@ -11,7 +11,7 @@ Ventry is an event ticketing platform in development. It started as a project to
 ### Current status
 
 - **Database:** MySQL schema, seed data, and stored procedures for transactional purchases, stock control, and individual ticket generation. The SQL test script includes manual checks for purchase errors and stock contention.
-- **Frontend:** The initial directory structure is in place. The application is planned around React, TypeScript, Vite, Tailwind CSS, and React Router.
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS, and React Router app running on mock data: event catalog with search and filters, event detail page with venue and sector maps, and ticket selection by batch.
 
 ### Roadmap
 
@@ -24,16 +24,16 @@ Ventry is an event ticketing platform in development. It started as a project to
 | 5 | REST API | Planned |
 | 6 | Authentication | Planned |
 | 7 | Application testing and documentation | Planned |
-| 8 | Frontend | Initial folders are in place. The first milestone is the mock flow below. |
+| 8 | Frontend | In progress. The first milestone, the mock flow below, is complete. |
 | 9 | Deployment | Planned |
 
 The frontend starts with mock data while the database work continues.
 
 ### First frontend milestone
 
-- [ ] Build the event detail page first and use it to set the visual direction on mobile and desktop.
-- [ ] Build the event catalog and link each event to its detail page.
-- [ ] Let the customer select a ticket type, batch, and quantity, see the total, and recognize a sold-out batch.
+- [x] Build the event detail page first and use it to set the visual direction on mobile and desktop.
+- [x] Build the event catalog and link each event to its detail page.
+- [x] Let the customer select a ticket type, batch, and quantity, see the total, and recognize a sold-out batch.
 
 The milestone is complete when the full flow works with mock data. Screens will call simple data functions so the mocks can later be replaced by API requests. Checkout, sign-in, and the organizer dashboard come after this milestone.
 
@@ -53,7 +53,7 @@ O Ventry é uma plataforma de eventos e venda de ingressos em desenvolvimento. O
 ### Estado atual
 
 - **Banco de dados:** schema MySQL, dados de exemplo e procedures para compras com transação, controle de estoque e geração de ingressos individuais. O roteiro SQL inclui verificações manuais de erros de compra e disputa por estoque.
-- **Frontend:** a estrutura inicial de pastas já existe. A aplicação está planejada com React, TypeScript, Vite, Tailwind CSS e React Router.
+- **Frontend:** aplicação em React, TypeScript, Vite, Tailwind CSS e React Router com dados fictícios: catálogo com busca e filtros, página de detalhe com mapa do local e dos setores, e seleção de ingressos por lote.
 
 ### Roadmap do projeto
 
@@ -66,16 +66,16 @@ O Ventry é uma plataforma de eventos e venda de ingressos em desenvolvimento. O
 | 5 | API REST | Planejada |
 | 6 | Autenticação | Planejada |
 | 7 | Testes e documentação da aplicação | Planejados |
-| 8 | Frontend | Pastas iniciais criadas. A primeira entrega é o fluxo com mocks descrito abaixo. |
+| 8 | Frontend | Em andamento. A primeira entrega, o fluxo com mocks descrito abaixo, está concluída. |
 | 9 | Deploy | Planejado |
 
 O frontend começa com dados fictícios enquanto o trabalho no banco continua.
 
 ### Primeira entrega do frontend
 
-- [ ] Montar primeiro a página de detalhe do evento e usá-la para definir a identidade visual no celular e no desktop.
-- [ ] Montar o catálogo e ligar cada evento à sua página de detalhe.
-- [ ] Permitir escolher tipo de ingresso, lote e quantidade, mostrar o total e sinalizar lote esgotado.
+- [x] Montar primeiro a página de detalhe do evento e usá-la para definir a identidade visual no celular e no desktop.
+- [x] Montar o catálogo e ligar cada evento à sua página de detalhe.
+- [x] Permitir escolher tipo de ingresso, lote e quantidade, mostrar o total e sinalizar lote esgotado.
 
 A entrega fica pronta quando o fluxo completo funciona com dados fictícios. As telas vão chamar funções simples de acesso a dados para que os mocks possam ser substituídos por chamadas à API. Checkout, login e painel do organizador ficam para depois dessa entrega.
 

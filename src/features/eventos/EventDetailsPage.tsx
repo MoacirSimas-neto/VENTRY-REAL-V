@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useLoaderData, useLocation, type LoaderFunctionArgs } from 'react-router';
 import { dateFormat, priceFormat, timeFormat } from './event-formatters';
 import { getEvento } from './event-service';
@@ -16,6 +17,7 @@ export function eventDetailsLoader({ params }: LoaderFunctionArgs) {
 export function EventDetailsPage() {
   const evento = useLoaderData<typeof eventDetailsLoader>();
   const { search } = useLocation();
+  const [agora] = useState(Date.now);
 
   if (!evento) return <NotFound event />;
 
@@ -25,7 +27,7 @@ export function EventDetailsPage() {
 
   return (
     <main id="conteudo" tabIndex={-1} className="grow">
-      <article className="site-shell pt-3 pb-14 sm:pt-5">
+      <article key={evento.id} className="site-shell pt-3 pb-14 sm:pt-5">
         <Link to={{ pathname: "/", search, hash: "#catalogo" }} className="text-muted mb-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold hover:underline">
           <span aria-hidden="true">←</span> Voltar aos eventos
         </Link>
@@ -107,9 +109,9 @@ export function EventDetailsPage() {
             </section>
           </div>
         </div>
-        <EventGeography key={evento.id} evento={evento} />
-        {mapa && <EventMap key={evento.id} nomeEvento={evento.nome} mapa={mapa} />}
-        <TicketSelection key={evento.id} lotes={getLotes(evento.id)} />
+        <EventGeography evento={evento} />
+        {mapa && <EventMap nomeEvento={evento.nome} mapa={mapa} />}
+        <TicketSelection lotes={getLotes(evento.id)} encerrado={Date.parse(evento.inicio) <= agora} />
       </article>
     </main>
   );

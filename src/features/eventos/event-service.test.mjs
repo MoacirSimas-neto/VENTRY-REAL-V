@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as service from './event-service.ts';
+import { getLotes } from './ticket-selection.ts';
 
 test('preserves the original event and returns undefined for an unknown ID', async () => {
   const evento = await service.getEvento('1');
@@ -9,6 +10,15 @@ test('preserves the original event and returns undefined for an unknown ID', asy
   assert.equal(evento?.inicio, '2026-10-29T20:00:00-03:00');
   assert.equal(evento?.precoInicial, 50);
   assert.equal(await service.getEvento('999'), undefined);
+});
+
+test('starting price is the cheapest lot still in stock', async () => {
+  const { eventos } = await service.getCatalogo();
+
+  for (const evento of eventos) {
+    const precos = getLotes(evento.id).filter(lote => lote.estoque > 0).map(lote => lote.precoCentavos);
+    if (precos.length > 0) assert.equal(evento.precoInicial, Math.min(...precos) / 100, evento.nome);
+  }
 });
 
 test('serves a regional catalog whose cards all resolve to event details', async () => {

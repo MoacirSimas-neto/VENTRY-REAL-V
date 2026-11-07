@@ -7,7 +7,7 @@ function dinheiro(centavos: number) {
   return priceFormat.format(centavos / 100);
 }
 
-export function TicketSelection({ lotes }: { lotes: readonly Lote[] }) {
+export function TicketSelection({ lotes, encerrado }: { lotes: readonly Lote[]; encerrado: boolean }) {
   const [quantidades, setQuantidades] = useState<Record<string, number>>({});
   const { itens, quantidade, total } = resumirIngressos(lotes, quantidades);
   const contagem = quantidade === 1 ? '1 ingresso' : quantidade + ' ingressos';
@@ -24,7 +24,9 @@ export function TicketSelection({ lotes }: { lotes: readonly Lote[] }) {
     <section aria-labelledby="ingressos" className="mt-8 border-t border-line pt-6 sm:mt-10">
       <p className="eyebrow">Ingressos</p>
       <h2 id="ingressos" tabIndex={-1} className="mt-2 scroll-mt-5 font-editorial text-3xl font-bold">Escolha seus ingressos</h2>
-      {lotes.length === 0 ? (
+      {encerrado ? (
+        <p className="mt-3 text-muted">Vendas encerradas. Este evento já aconteceu.</p>
+      ) : lotes.length === 0 ? (
         <p className="mt-3 text-muted">Este evento ainda não tem lotes disponíveis.</p>
       ) : (
         <>

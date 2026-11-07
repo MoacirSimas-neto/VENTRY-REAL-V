@@ -25,7 +25,7 @@ function MapOnDemand(props: GeographicMapProps) {
             type="button"
             aria-disabled={estado === 'carregando'}
             onClick={() => { if (estado !== 'carregando') void carregar(); }}
-            className="min-h-11 rounded-lg border border-line px-4 text-sm font-semibold text-primary hover:underline"
+            className="min-h-11 rounded-lg border border-line px-4 text-sm font-semibold hover:underline"
           >
             {estado === 'erro' ? 'Tentar carregar novamente' : 'Carregar mapa'}
           </button>
@@ -49,7 +49,7 @@ export function EventGeography({ evento }: { evento: Evento }) {
   return (
     <>
       <section aria-labelledby="venue-title" className="mt-8 border-t border-line pt-6">
-        <h2 id="venue-title" className="section-title text-2xl font-bold">Onde acontece</h2>
+        <h2 id="venue-title" className="font-editorial text-3xl font-bold">Onde acontece</h2>
         <div className="mt-4 grid items-start gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
           <div className="rounded-xl border border-line bg-surface p-4">
             <p className="font-bold">{local ? evento.local.nome : 'Local a confirmar'}</p>
@@ -68,7 +68,7 @@ export function EventGeography({ evento }: { evento: Evento }) {
 
       {percurso && (
         <section aria-labelledby="course-title" className="mt-8 border-t border-line pt-6">
-          <h2 id="course-title" className="section-title text-2xl font-bold">Percurso da corrida</h2>
+          <h2 id="course-title" className="font-editorial text-3xl font-bold">Percurso da corrida</h2>
           <div className="mt-4 grid items-start gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
             <div className="rounded-xl border border-line bg-surface p-4">
               {percurso.properties.ilustrativo && <p className="text-sm font-semibold text-muted">Percurso ilustrativo</p>}

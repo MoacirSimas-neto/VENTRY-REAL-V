@@ -1,4 +1,5 @@
 import eventosMock from './eventos.mock.json' with { type: 'json' };
+import { getLotes } from './ticket-selection.ts';
 
 type Local = {
   nome: string;
@@ -23,7 +24,13 @@ const regioes = [
   { id: 'florianopolis', nome: 'Florianópolis', cidades: ['Florianópolis'] },
   { id: 'entorno', nome: 'São José, Palhoça e Biguaçu', cidades: ['São José', 'Palhoça', 'Biguaçu'] },
 ];
-const eventos: readonly Evento[] = eventosMock;
+// "A partir de" vem do lote mais barato com estoque; o preço do mock fica só para eventos sem lotes.
+function comPrecoDosLotes(evento: Evento): Evento {
+  const precos = getLotes(evento.id).filter(lote => lote.estoque > 0).map(lote => lote.precoCentavos);
+  return precos.length > 0 ? { ...evento, precoInicial: Math.min(...precos) / 100 } : evento;
+}
+
+const eventos: readonly Evento[] = eventosMock.map(comPrecoDosLotes);
 const destaque = eventos.find(evento => evento.id === '2') ?? eventos[0];
 
 const categorias = [...new Set(eventos.map(evento => evento.categoria))]
@@ -48,7 +55,6 @@ export function filtrarEventos(eventosDaRegiao: readonly Evento[], busca: string
       .some(valor => normalizarBusca(valor).includes(termo))),
   );
 }
-
 
 export function getEventosEmAlta(eventosDaRegiao: readonly Evento[], agora: number) {
   return eventosDaRegiao
