@@ -13,6 +13,12 @@ Ventry is an event ticketing platform in development. It started as a project to
 - **Database:** MySQL schema, seed data, and stored procedures for transactional purchases, stock control, and individual ticket generation. The SQL test script includes manual checks for purchase errors and stock contention.
 - **Frontend:** React, TypeScript, Vite, Tailwind CSS, and React Router app running on mock data: event catalog with search and filters, event detail page with venue and sector maps, and ticket selection by batch.
 
+### My contribution
+
+- **Database (my part):** I modeled the MySQL schema (tables, keys and CHECK constraints) and wrote the seed data, the stored procedures and the SQL test script by hand. `compra_com_estoque` runs a purchase inside a transaction, with a conditional stock update and rollback on error. `gerar_ingressos` creates individual ticket codes and blocks duplicate generation.
+- **Frontend:** built with AI support and Lovable, running on mock data.
+- **REST API:** still planned.
+
 ### Roadmap
 
 | Phase | Milestone | Status |
@@ -55,6 +61,12 @@ O Ventry é uma plataforma de eventos e venda de ingressos em desenvolvimento. O
 
 - **Banco de dados:** schema MySQL, dados de exemplo e procedures para compras com transação, controle de estoque e geração de ingressos individuais. O roteiro SQL inclui verificações manuais de erros de compra e disputa por estoque.
 - **Frontend:** aplicação em React, TypeScript, Vite, Tailwind CSS e React Router com dados fictícios: catálogo com busca e filtros, página de detalhe com mapa do local e dos setores, e seleção de ingressos por lote.
+
+### Minha contribuição
+
+- **Banco de dados (minha parte):** modelei o schema MySQL (tabelas, chaves e restrições CHECK) e escrevi à mão os dados de exemplo, as procedures e o roteiro de testes em SQL. A `compra_com_estoque` faz a compra dentro de uma transação, com atualização condicional do estoque e rollback em caso de erro. A `gerar_ingressos` cria códigos individuais por ingresso e impede geração duplicada.
+- **Frontend:** construído com apoio de IA e do Lovable, rodando com dados fictícios.
+- **API REST:** ainda planejada.
 
 ### Roadmap do projeto
 
