@@ -140,6 +140,18 @@ COMMIT;
 -- Se não houver mais estoque suficiente,
 -- ROW_COUNT() retorna 0.
 
+-- Pré-requisito dos testes de ingresso abaixo:
+-- cria um ingresso válido com o código usado no teste de duplicidade.
+INSERT INTO ingresso (
+    id_item_compra,
+    codigo_unico
+)
+VALUES (
+    1,
+    'VTY-A81F92K2'
+);
+
+
 -- 1. código duplicado
 INSERT INTO ingresso (
     id_item_compra,
