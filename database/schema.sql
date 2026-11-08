@@ -191,17 +191,3 @@ CREATE TABLE ingresso (
         )
     )
 );
-
-describe ingresso;
-
-select*
-from ingresso;
-
-INSERT INTO ingresso (
-    id_item_compra,
-    codigo_unico
-)
-VALUES (
-    1,
-    'VTY-A81F92K2'
-);
