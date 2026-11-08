@@ -39,8 +39,9 @@ The milestone is complete when the full flow works with mock data. Screens will 
 
 ### Development workflow
 
-- **At work:** develop and test the frontend with mocks. The catalog and ticket selection flow should run without MySQL.
-- **At home:** write and test SQL manually in MySQL Workbench. Later, connect one read-only flow first, such as the event detail page. The planned backend is a REST API using Node.js, TypeScript, Express, and MySQL.
+- **Frontend:** developed and tested with mock data. The catalog and ticket selection flow run without MySQL.
+- **Database:** SQL written and tested manually in MySQL Workbench.
+- **Next step:** connect one read-only flow first, such as the event detail page. The planned backend is a REST API using Node.js, TypeScript, Express, and MySQL.
 
 ---
 
@@ -79,10 +80,11 @@ O frontend começa com dados fictícios enquanto o trabalho no banco continua.
 
 A entrega fica pronta quando o fluxo completo funciona com dados fictícios. As telas vão chamar funções simples de acesso a dados para que os mocks possam ser substituídos por chamadas à API. Checkout, login e painel do organizador ficam para depois dessa entrega.
 
-### Divisão do trabalho
+### Fluxo de desenvolvimento
 
-- **No trabalho:** desenvolver e testar o frontend com mocks. O catálogo e a seleção de ingresso devem rodar sem MySQL.
-- **Em casa:** escrever e testar o SQL manualmente no MySQL Workbench. Mais adiante, integrar primeiro uma consulta, como o detalhe de um evento. A direção planejada para o backend é uma API REST com Node.js, TypeScript, Express e MySQL.
+- **Frontend:** desenvolvido e testado com dados fictícios. O catálogo e a seleção de ingresso rodam sem MySQL.
+- **Banco de dados:** SQL escrito e testado manualmente no MySQL Workbench.
+- **Próximo passo:** integrar primeiro uma consulta de leitura, como o detalhe de um evento. A direção planejada para o backend é uma API REST com Node.js, TypeScript, Express e MySQL.
 
 ---
 
